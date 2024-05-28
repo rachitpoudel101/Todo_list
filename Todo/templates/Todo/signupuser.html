@@ -1,1 +1,7 @@
-{{form}}
+<h1> sign up page </h1>
+
+<form method="POST">
+    {% csrf_token %}
+{{form.as_p}}
+<button type="summit"> Sign up Page </button>
+</form>
