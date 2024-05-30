@@ -18,7 +18,11 @@ from django.urls import path
 from Todo import views
 urlpatterns = [
     path("admin/", admin.site.urls),
-    
+    path('',views.home, name='home'),
     #Auth
-    path('signup/',views.signupuser, name='signupuser')
+    path('signup/',views.signupuser, name='signupuser'),
+    
+    path('current/',views.currentTodos, name='currentTodos'),
+    
+    path('logout/',views.logoutuser, name='logoutuser'),
 ]
