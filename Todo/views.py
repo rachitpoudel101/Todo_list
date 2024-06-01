@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login ,logout,authenticate
+from .forms import Todoform
 def home(request):
    return render(request, 'Todo/home.html')
 def signupuser(request):
@@ -39,3 +40,13 @@ def loginuser(request):
         else:
             login(request,user)
             return redirect('currentTodos')
+        
+def createtodo(request):
+    if request.method == 'GET':
+        return render(request, 'Todo/createuser.html',{'form':Todoform()})
+    else:
+        form = Todoform(request.POST)
+        newtodo = form.save(commit=False)
+        newtodo.user = request.user
+        newtodo.save()
+        return redirect('currentTodos')

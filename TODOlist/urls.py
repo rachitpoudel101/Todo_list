@@ -21,6 +21,7 @@ urlpatterns = [
     path('',views.home, name='home'),
     #Auth
     path('signup/',views.signupuser, name='signupuser'),
+     path('create/',views.createtodo, name='createtodo'),
     
     path('current/',views.currentTodos, name='currentTodos'),
     
