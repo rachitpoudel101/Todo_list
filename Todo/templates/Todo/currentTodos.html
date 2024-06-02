@@ -1,6 +1,11 @@
-{% extends "Todo/base.html" %}
+{% comment %} {% extends "Todo/base.html" %} {% endcomment %}
 
 {%block content%%}
 
 Current Todos
+<ul>
+    {%for todo in todos%}
+    <li>{{todo.title}}</li>
+    {% endfor %}
+</ul>
 {%endblock%}

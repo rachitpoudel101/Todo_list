@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login ,logout,authenticate
 from .forms import Todoform
+from .models import Todo
 def home(request):
    return render(request, 'Todo/home.html')
 def signupuser(request):
@@ -23,7 +24,8 @@ def signupuser(request):
         
         
 def currentTodos(request):
-    return render(request, 'Todo/currentTodos.html')
+    todos = Todo.objects.all()
+    return render(request, 'Todo/currentTodos.html',{'todos':todos})
 
 def logoutuser(request):
     if request.method == 'POST':
@@ -45,8 +47,11 @@ def createtodo(request):
     if request.method == 'GET':
         return render(request, 'Todo/createuser.html',{'form':Todoform()})
     else:
-        form = Todoform(request.POST)
-        newtodo = form.save(commit=False)
-        newtodo.user = request.user
-        newtodo.save()
-        return redirect('currentTodos')
+        try:
+            form = Todoform(request.POST)
+            newtodo = form.save(commit=False)
+            newtodo.user = request.user
+            newtodo.save()
+            return redirect('currentTodos')
+        except:
+             return render(request, 'Todo/createuser.html',{'form':Todoform(),'error':'bad input error.'})
