@@ -1,5 +1,5 @@
 from django.db import IntegrityError
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render,get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login ,logout,authenticate
@@ -55,3 +55,8 @@ def createtodo(request):
             return redirect('currentTodos')
         except:
              return render(request, 'Todo/createuser.html',{'form':Todoform(),'error':'bad input error.'})
+         
+         
+def viewtodo(request, todo_pk):
+    todo = Todo.objects.get(pk=todo_pk)
+    return render(request, 'Todo/viewtodo.html',{'todo':todo})

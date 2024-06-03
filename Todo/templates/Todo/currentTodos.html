@@ -1,11 +1,13 @@
-{% comment %} {% extends "Todo/base.html" %} {% endcomment %}
-
-{%block content%%}
-
-Current Todos
-<ul>
-    {%for todo in todos%}
-    <li>{{todo.title}}</li>
-    {% endfor %}
-</ul>
-{%endblock%}
+{% block content %}
+    Current Todos
+    <ul>
+      {% for todo in todos %}
+        <li>
+          <a href="{% url 'viewtodo' todo.id %}">
+            {% if todo.important %}<b>{% endif %} {{ todo.title }}{% if todo.important %}</b>{% endif %}
+            {% if todo.memo %} - {{ todo.memo }} {% endif %}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+{% endblock %}
