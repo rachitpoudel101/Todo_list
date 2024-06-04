@@ -59,4 +59,8 @@ def createtodo(request):
          
 def viewtodo(request, todo_pk):
     todo = Todo.objects.get(pk=todo_pk)
-    return render(request, 'Todo/viewtodo.html',{'todo':todo})
+    if request.method == 'GET':
+        form = Todoform(instance=todo)
+        return render(request, 'Todo/viewtodo.html',{'todo':todo, 'form':form})
+    else:
+    

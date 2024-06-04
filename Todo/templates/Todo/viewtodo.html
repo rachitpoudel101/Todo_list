@@ -1,6 +1,6 @@
-
-
-{%block content%%}
-
-{{ todo.title }}
+{%block content%%} {{ todo.title }}
+<form method="POST">
+  {%csrf_token%%} {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>
 {%endblock%}
