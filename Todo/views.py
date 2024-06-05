@@ -1,3 +1,5 @@
+from urllib import request
+from django.utils import timezone
 from django.db import IntegrityError
 from django.shortcuts import redirect, render,get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -24,7 +26,7 @@ def signupuser(request):
         
         
 def currentTodos(request):
-    todos = Todo.objects.all()
+    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True)    
     return render(request, 'Todo/currentTodos.html',{'todos':todos})
 
 def logoutuser(request):
@@ -58,9 +60,29 @@ def createtodo(request):
          
          
 def viewtodo(request, todo_pk):
-    todo = Todo.objects.get(pk=todo_pk)
+    todo = Todo.objects.get(pk=todo_pk, user = request.user)
     if request.method == 'GET':
         form = Todoform(instance=todo)
         return render(request, 'Todo/viewtodo.html',{'todo':todo, 'form':form})
     else:
+        try:
+            form = Todoform(request.POST, instance=todo)
+            form.save()
+            return redirect('currentTodos')
+        except:
+            return render(request, 'Todo/viewtodo.html',{'todo':todo, 'form':form, 'error':'bad input error.'})
     
+    
+def completetodo(request, todo_pk):
+    todo = get_object_or_404(Todo,pk=todo_pk, user=request.user)
+    if request.method == 'POST':
+        todo.datecompleted = timezone.now()
+        todo.save()
+        return redirect('currentTodos')
+
+
+def deletetodo(request, todo_pk):
+    todo = get_object_or_404(Todo,pk=todo_pk, user=request.user)
+    if request.method == 'POST':
+        todo.delete()
+        return redirect('currentTodos')
