@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('todos', views.TodoListCreate.as_view()),
     path('todos/<int:pk>', views.TodoRetrieveUpdateDestroy.as_view()),
@@ -10,3 +10,4 @@ urlpatterns = [
     path('signup',views.signup),
     path('login',views.login),
 ]
+urlpatterns += staticfiles_urlpatterns()
