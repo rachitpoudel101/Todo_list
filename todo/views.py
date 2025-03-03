@@ -11,6 +11,9 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     return render(request, 'todo/home.html')
 
+def landing(request):
+    return render(request, 'todo/landing.html')
+
 def signupuser(request):
     if request.method == 'GET':
         return render(request, 'todo/signupuser.html', {'form':UserCreationForm()})
